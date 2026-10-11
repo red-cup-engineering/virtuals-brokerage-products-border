@@ -1,19 +1,41 @@
 {
-  "name": "@rsc-quiescent/virtuals-brokerage-products-border",
-  "version": "0.1.2",
-  "private": true,
+  "name": "@red-cup-engineering/virtuals-brokerage-products-border",
+  "version": "0.1.5",
   "type": "module",
+  "files": [
+    "src/",
+    "scripts/",
+    "data/authorizations/"
+  ],
   "exports": {
     ".": "./src/virtuals-border.mjs",
     "./lite-runtime": "./src/virtuals-lite-runtime.mjs",
-    "./src/virtuals-lite-runtime.mjs": "./src/virtuals-lite-runtime.mjs"
+    "./src/virtuals-lite-runtime.mjs": "./src/virtuals-lite-runtime.mjs",
+    "./commercial-pilot-guard": "./src/virtuals-commercial-pilot-guard.mjs",
+    "./commercial-pilot-runtime": "./src/virtuals-commercial-pilot-runtime.mjs",
+    "./lite-commercial-pilot": "./src/virtuals-lite-commercial-pilot.mjs",
+    "./lite-production": "./src/virtuals-lite-production.mjs",
+    "./market-action": "./src/virtuals-market-action.mjs"
   },
   "scripts": {
-    "check": "node --check src/virtuals-border.mjs && node --check src/virtuals-lite-runtime.mjs"
+    "check": "node --check src/*.mjs && node --check scripts/*.mjs",
+    "test": "node --test test/*.test.mjs"
   },
   "dependencies": {
-    "@red-cup-engineering/semantic-content-identify-service": "0.2.2",
-    "socket.io-client": "^4.8.1"
+    "@account-kit/infra": "4.84.1",
+    "@red-cup-engineering/base-pre-sign-policy-service": "workspace:*",
+    "@red-cup-engineering/blockchain-trashpanda-services-section": "workspace:*",
+    "@red-cup-engineering/alpaca-services-section": "workspace:*",
+    "@red-cup-engineering/semiotic-eavt-services-section": "workspace:*",
+    "@red-cup-engineering/computer-content-engineering-services-section": "workspace:*",
+    "@red-cup-engineering/computer-system-engine": "workspace:*",
+    "@red-cup-engineering/cryptographic-computer-data-engineering-services-section": "workspace:*",
+    "@red-cup-engineering/eavt-services-section": "workspace:*",
+    "@red-cup-engineering/ethereum-engineering-services-section": "workspace:*",
+    "@red-cup-engineering/computer-file-engineering-services-section": "workspace:*",
+    "@red-cup-engineering/json-services-section": "workspace:*",
+    "@red-cup-engineering/witness-journal-document-service": "workspace:*",
+    "socket.io-client": "4.8.1"
   },
   "description": "virtuals-brokerage-products-border sovereign enterprise"
 }

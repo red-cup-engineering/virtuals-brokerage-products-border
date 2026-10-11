@@ -2,9 +2,9 @@ import { randomBytes } from "node:crypto";
 import { closeSync, constants, existsSync, fsyncSync, linkSync, mkdirSync, openSync, readFileSync, statSync, unlinkSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { VIRTUALS_PRODUCTS } from "./virtuals-border.mjs";
-import { EMPTY_WITNESS_ROOT, identifyJsonSemanticContent } from "@red-cup-engineering/semantic-content-identify-service";
+import { semanticIdOf } from "@red-cup-engineering/computer-content-engineering-services-section/semantic-content-identity";
 
-const semanticId = (value) => identifyJsonSemanticContent({ objectKind: "brokerage.virtuals-products-border.record", value, witnessRoot: EMPTY_WITNESS_ROOT }).id;
+const semanticId = semanticIdOf("brokerage.virtuals-products-border.record");
 
 export const VIRTUALS_LITE_API_ORIGIN = "https://claw-api.virtuals.io";
 export const VIRTUALS_LITE_SOCKET_ORIGIN = "https://acpx.virtuals.io";
