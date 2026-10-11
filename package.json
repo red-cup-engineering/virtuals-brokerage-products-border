@@ -27,7 +27,6 @@
     "@red-cup-engineering/blockchain-trashpanda-services-section": "workspace:*",
     "@red-cup-engineering/alpaca-services-section": "workspace:*",
     "@red-cup-engineering/semiotic-eavt-services-section": "workspace:*",
-    "@red-cup-engineering/computer-content-engineering-services-section": "workspace:*",
     "@red-cup-engineering/computer-system-engine": "workspace:*",
     "@red-cup-engineering/cryptographic-computer-data-engineering-services-section": "workspace:*",
     "@red-cup-engineering/eavt-services-section": "workspace:*",
@@ -35,7 +34,8 @@
     "@red-cup-engineering/computer-file-engineering-services-section": "workspace:*",
     "@red-cup-engineering/json-services-section": "workspace:*",
     "@red-cup-engineering/witness-journal-document-service": "workspace:*",
-    "socket.io-client": "4.8.1"
+    "socket.io-client": "4.8.1",
+    "@red-cup-engineering/computer-content-address-engineering-services-section": "workspace:*"
   },
   "description": "virtuals-brokerage-products-border sovereign enterprise"
 }
