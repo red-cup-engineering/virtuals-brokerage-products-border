@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { mkdirSync } from "node:fs";
 import { resolve } from "node:path";
-import { createSemanticRecordJournal } from "@red-cup-engineering/semiotic-eavt-services-section/record-semantic-record";
+import { put } from "@red-cup-engineering/semiotic-eavt-services-section/store";
 import {
   requireVirtualsProductionGate,
   startVirtualsLiteProduction,
@@ -11,7 +11,6 @@ import { YANAGI_OPERATOR_WALLET } from "../src/virtuals-lite-commercial-pilot.mj
 
 const AUTH_ORIGIN = "https://acpx.virtuals.io";
 const STATE_ROOT = resolve(process.argv[2] ?? "data/runtime/virtuals-production");
-const EVENT_JOURNAL = createSemanticRecordJournal({ root: STATE_ROOT, objectKind: "blockchain-trashpanda.virtuals-production-event" });
 const WAIT_MS = 5_000;
 const DEADLINE_MS = 5 * 60_000;
 
@@ -23,7 +22,7 @@ async function json(response, label) {
 
 function record(event) {
   const recordedAt = new Date().toISOString();
-  EVENT_JOURNAL.record({ category: "virtuals-production.event", recordedAt, record: { ...event, recordedAt }, told: { for: true, against: false } });
+  put(STATE_ROOT, "virtuals-production-event", { ...event, recordedAt });
   process.stdout.write(`${JSON.stringify(event)}\n`);
 }
 
