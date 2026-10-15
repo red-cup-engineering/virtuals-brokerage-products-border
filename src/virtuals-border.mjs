@@ -1,4 +1,4 @@
-import { semanticIdOf } from "@red-cup-engineering/computer-content-address-engineering-services-section/semantic-content-identity";
+import { semanticIdOf } from "@red-cup-engineering/computer-data-engineering-services-section/semiotic-expression-notation/semantic-content-identity";
 import { canonicalJson as canonical } from "@red-cup-engineering/json-services-section/canonical-json";
 const semanticId = semanticIdOf("brokerage.virtuals-products-border.record");
 
