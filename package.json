@@ -1,6 +1,6 @@
 {
   "name": "@red-cup-engineering/virtuals-brokerage-products-border",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "type": "module",
   "files": [
     "src/",
@@ -22,19 +22,20 @@
   },
   "dependencies": {
     "@account-kit/infra": "4.84.1",
-    "@red-cup-engineering/base-pre-sign-policy-service": "workspace:*",
-    "@red-cup-engineering/blockchain-trashpanda-services-section": "workspace:*",
-    "@red-cup-engineering/alpaca-services-section": "workspace:*",
-    "@red-cup-engineering/semiotic-eavt-services-section": "workspace:*",
-    "@red-cup-engineering/computer-system-engine": "workspace:*",
-    "@red-cup-engineering/cryptographic-computer-data-engineering-services-section": "workspace:*",
-    "@red-cup-engineering/eavt-services-section": "workspace:*",
-    "@red-cup-engineering/ethereum-engineering-services-section": "workspace:*",
-    "@red-cup-engineering/computer-file-engineering-services-section": "workspace:*",
-    "@red-cup-engineering/json-services-section": "workspace:*",
-    "@red-cup-engineering/witness-journal-document-service": "workspace:*",
     "socket.io-client": "4.8.1",
-    "@red-cup-engineering/computer-content-address-engineering-services-section": "workspace:*"
+    "@red-cup-engineering/base-pre-sign-policy-service": "0.1.0",
+    "@red-cup-engineering/blockchain-trashpanda-services-section": "0.6.0",
+    "@red-cup-engineering/alpaca-services-section": "0.1.2",
+    "@red-cup-engineering/semiotic-eavt-services-section": "0.1.0",
+    "@red-cup-engineering/computer-system-engine": "0.1.0",
+    "@red-cup-engineering/cryptographic-computer-data-engineering-services-section": "0.3.1",
+    "@red-cup-engineering/eavt-services-section": "0.10.4",
+    "@red-cup-engineering/ethereum-engineering-services-section": "0.15.1",
+    "@red-cup-engineering/computer-file-engineering-services-section": "0.4.0",
+    "@red-cup-engineering/json-services-section": "0.4.0",
+    "@red-cup-engineering/witness-journal-document-service": "0.1.1",
+    "@red-cup-engineering/computer-content-address-engineering-services-section": "0.2.0"
   },
-  "description": "virtuals-brokerage-products-border sovereign enterprise"
+  "description": "virtuals-brokerage-products-border sovereign enterprise",
+  "private": false
 }
