@@ -1,3 +1,4 @@
+import { syntheticAuthorizationPath } from "./fixtures/synthetic-pilot-authorization.mjs";
 import assert from "node:assert/strict";
 import { mkdirSync, mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -19,7 +20,7 @@ async function fixture(operatorWalletAddress = OPERATOR) {
   const directory = mkdtempSync(join(tmpdir(), "yanagi-virtuals-pilot-"));
   const stateRoot = join(directory, "state");
   mkdirSync(stateRoot, { mode: 0o700 });
-  return createVirtualsCommercialPilotGuard({ operatorWalletAddress, stateRoot, now: () => NOW });
+  return createVirtualsCommercialPilotGuard({ authorizationPath: syntheticAuthorizationPath(directory), operatorWalletAddress, stateRoot, now: () => NOW });
 }
 
 function submitCall(jobId) {
@@ -68,7 +69,7 @@ test("refuses an operator configured as forbidden", async () => {
   const stateRoot = join(directory, "state");
   mkdirSync(stateRoot, { mode: 0o700 });
   await assert.rejects(
-    createVirtualsCommercialPilotGuard({ operatorWalletAddress: OPERATOR, stateRoot, forbiddenOperatorWallets: [OPERATOR] }),
+    createVirtualsCommercialPilotGuard({ authorizationPath: syntheticAuthorizationPath(directory), operatorWalletAddress: OPERATOR, stateRoot, forbiddenOperatorWallets: [OPERATOR] }),
     /operator wallet is forbidden/u,
   );
 });

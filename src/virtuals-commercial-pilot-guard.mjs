@@ -1,6 +1,5 @@
 import { existsSync, mkdirSync, statSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { join, resolve } from "node:path";
 import { readFileText } from "@red-cup-engineering/computer-file-engineering-services-section/read-file";
 import { createIfAbsent } from "./create-if-absent.mjs";
 import { sha256Hex } from "@red-cup-engineering/cryptographic-computer-data-engineering-services-section/integrity";
@@ -13,8 +12,6 @@ export const PILOT_OFFERING_NAME = "pre_sign_transaction_policy_conformance";
 export const PILOT_PRICE = "0.01";
 export const PILOT_USDC_BASE_UNITS = 10_000n;
 
-const MODULE_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const DEFAULT_AUTHORIZATION_PATH = join(MODULE_ROOT, "data", "authorizations", "one-job-virtuals-commercial-pilot.json");
 const HEX_ADDRESS = /^0x[0-9a-fA-F]{40}$/u;
 const HEX_CALLDATA = /^0x(?:[0-9a-fA-F]{2})+$/u;
 const DECIMAL_ID = /^(?:0|[1-9][0-9]*)$/u;
@@ -46,7 +43,8 @@ async function readJson(path, label) {
 }
 
 
-async function requireAuthorization(path) {
+export async function readVirtualsPilotAuthorization(path) {
+  if (typeof path !== "string" || path.trim().length === 0) throw new TypeError("commercial pilot requires an explicit authorizationPath");
   const authorization = await readJson(path, "commercial pilot authorization");
   if (authorization.enterprise !== "urn:ame:blockchain-trashpanda"
       || authorization.platform !== "Virtuals ACP"
@@ -123,11 +121,11 @@ function requireDelegate(delegate) {
 export async function createVirtualsCommercialPilotGuard({
   operatorWalletAddress,
   stateRoot,
-  authorizationPath = DEFAULT_AUTHORIZATION_PATH,
+  authorizationPath,
   forbiddenOperatorWallets = [],
   now = () => new Date().toISOString(),
 }) {
-  await requireAuthorization(authorizationPath);
+  await readVirtualsPilotAuthorization(authorizationPath);
   const operatorWallet = normalizeAddress(operatorWalletAddress, "operator wallet");
   if (normalizeAddressSet(forbiddenOperatorWallets, "forbidden operator wallet").has(operatorWallet)) {
     throw new TypeError("commercial pilot operator wallet is forbidden");

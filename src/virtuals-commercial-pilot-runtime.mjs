@@ -82,6 +82,7 @@ export async function startVirtualsCommercialPilot({
   authorizationKeystorePath,
   authorizationPasswordFile,
   stateRoot,
+  authorizationPath,
   forbiddenOperatorWallets = [],
   expiresAt,
   privyAppId = VIRTUALS_PRIVY_APP_ID,
@@ -89,15 +90,16 @@ export async function startVirtualsCommercialPilot({
   onTerminal,
   onRefusal,
 }) {
+  const guard = await createVirtualsCommercialPilotGuard({
+    operatorWalletAddress: walletAddress,
+    stateRoot: resolve(stateRoot),
+    authorizationPath,
+    forbiddenOperatorWallets,
+  });
   const [{ AcpAgent, AssetToken, PrivyAlchemyEvmProviderAdapter }, { base }] = await Promise.all([
     import("@virtuals-protocol/acp-node-v2"),
     import("@account-kit/infra"),
   ]);
-  const guard = await createVirtualsCommercialPilotGuard({
-    operatorWalletAddress: walletAddress,
-    stateRoot: resolve(stateRoot),
-    forbiddenOperatorWallets,
-  });
   const signFn = createPolicyBoundPrivyAuthorizationSignFn({
     path: resolve(authorizationKeystorePath),
     passwordFile: resolve(authorizationPasswordFile),

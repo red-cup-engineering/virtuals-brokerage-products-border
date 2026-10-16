@@ -220,6 +220,7 @@ export function createVirtualsLitePilotJobHandler({ client, guard, stop = async 
 export async function startVirtualsLiteCommercialPilot({
   apiKey,
   stateRoot,
+  authorizationPath,
   operatorWalletAddress = YANAGI_OPERATOR_WALLET,
   forbiddenOperatorWallets = [],
   fetchImpl = fetch,
@@ -228,7 +229,7 @@ export async function startVirtualsLiteCommercialPilot({
   onEvent = async () => {},
 }) {
   if (socketOrigin !== VIRTUALS_LITE_SOCKET_ORIGIN) throw new TypeError("Virtuals Lite pilot refuses a non-official socket origin");
-  const guard = await createVirtualsCommercialPilotGuard({ operatorWalletAddress, stateRoot, forbiddenOperatorWallets });
+  const guard = await createVirtualsCommercialPilotGuard({ operatorWalletAddress, stateRoot, authorizationPath, forbiddenOperatorWallets });
   const client = createVirtualsLiteApiClient({ apiKey, fetchImpl });
   const publication = await ensureVirtualsLitePilotOffering({ client, guard });
   let socket;

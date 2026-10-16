@@ -4,8 +4,7 @@
   "type": "module",
   "files": [
     "src/",
-    "scripts/",
-    "data/authorizations/"
+    "scripts/"
   ],
   "exports": {
     ".": "./src/virtuals-border.mjs",
