@@ -11,6 +11,7 @@
     "./lite-runtime": "./src/virtuals-lite-runtime.mjs",
     "./src/virtuals-lite-runtime.mjs": "./src/virtuals-lite-runtime.mjs",
     "./commercial-pilot-guard": "./src/virtuals-commercial-pilot-guard.mjs",
+    "./commercial-pilot-runtime": "./src/virtuals-commercial-pilot-runtime.mjs",
     "./lite-commercial-pilot": "./src/virtuals-lite-commercial-pilot.mjs",
     "./lite-production": "./src/virtuals-lite-production.mjs",
     "./market-action": "./src/virtuals-market-action.mjs"
@@ -21,6 +22,7 @@
   },
   "dependencies": {
     "@account-kit/infra": "4.84.1",
+    "@virtuals-protocol/acp-node-v2": "0.1.15",
     "socket.io-client": "4.8.1",
     "@red-cup-engineering/semiotic-eavt-services-section": "0.1.0",
     "@red-cup-engineering/cryptographic-computer-data-engineering-services-section": "0.3.1",
