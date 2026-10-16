@@ -1,3 +1,4 @@
+import { syntheticAuthorizationPath } from "./fixtures/synthetic-pilot-authorization.mjs";
 import assert from "node:assert/strict";
 import { mkdirSync, mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -55,7 +56,7 @@ async function fixture() {
   const directory = mkdtempSync(join(tmpdir(), "yanagi-lite-pilot-"));
   const stateRoot = join(directory, "state");
   mkdirSync(stateRoot, { mode: 0o700 });
-  const guard = await createVirtualsCommercialPilotGuard({ operatorWalletAddress: YANAGI_OPERATOR_WALLET, stateRoot, now: () => "2026-07-22T12:00:00.000Z" });
+  const guard = await createVirtualsCommercialPilotGuard({ authorizationPath: syntheticAuthorizationPath(directory), operatorWalletAddress: YANAGI_OPERATOR_WALLET, stateRoot, now: () => "2026-07-22T12:00:00.000Z" });
   const calls = [];
   const client = {
     async me() { return { data: { name: "Yanagi", walletAddress: YANAGI_OPERATOR_WALLET, jobs: [] } }; },
@@ -138,6 +139,7 @@ test("the started listener remains live until its explicit bounded stop", async 
   let disconnects = 0;
   const socket = { on() {}, disconnect() { disconnects += 1; } };
   const pilot = await startVirtualsLiteCommercialPilot({
+    authorizationPath: syntheticAuthorizationPath(directory),
     apiKey: "yanagi-test-api-key-which-is-not-production",
     stateRoot: join(directory, "state"),
     ioFactory: () => socket,

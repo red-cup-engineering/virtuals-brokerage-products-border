@@ -1,3 +1,4 @@
+import { syntheticAuthorizationPath } from "./fixtures/synthetic-pilot-authorization.mjs";
 import assert from "node:assert/strict";
 import { mkdirSync, mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -26,7 +27,7 @@ async function fixture() {
   const directory = mkdtempSync(join(tmpdir(), "yanagi-virtuals-runtime-"));
   const stateRoot = join(directory, "state");
   mkdirSync(stateRoot, { mode: 0o700 });
-  const guard = await createVirtualsCommercialPilotGuard({ operatorWalletAddress: OPERATOR, stateRoot, now: () => "2026-07-22T12:00:00.000Z" });
+  const guard = await createVirtualsCommercialPilotGuard({ authorizationPath: syntheticAuthorizationPath(directory), operatorWalletAddress: OPERATOR, stateRoot, now: () => "2026-07-22T12:00:00.000Z" });
   const refusals = [];
   const terminals = [];
   const handler = createVirtualsPilotEntryHandler({ guard, AssetToken, onRefusal: async (value) => refusals.push(value), onTerminal: async (value) => terminals.push(value) });
