@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { existsSync, mkdtempSync, readFileSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
@@ -7,8 +7,9 @@ import { createVirtualsCommercialPilotGuard, readVirtualsPilotAuthorization } fr
 import { syntheticAuthorizationPath } from "./fixtures/synthetic-pilot-authorization.mjs";
 
 const operatorWalletAddress = "0x1111111111111111111111111111111111111111";
-test("missing, absent and invalid instance authority refuse before state creation", async () => {
+test("missing, absent and invalid instance authority refuse before state creation", async (t) => {
   const root = mkdtempSync(join(tmpdir(), "virtuals-boundary-"));
+  t.after(() => rmSync(root, { recursive: true, force: true }));
   for (const authorizationPath of [undefined, "", join(root, "absent.json"), syntheticAuthorizationPath(root, { jobLimit: 2 })]) {
     const stateRoot = join(root, "not-created");
     await assert.rejects(createVirtualsCommercialPilotGuard({ operatorWalletAddress, stateRoot, authorizationPath }), /authorization/u);
@@ -16,8 +17,9 @@ test("missing, absent and invalid instance authority refuse before state creatio
   }
 });
 
-test("synthetic authority mechanics preserve the supplied file bytes", async () => {
+test("synthetic authority mechanics preserve the supplied file bytes", async (t) => {
   const root = mkdtempSync(join(tmpdir(), "virtuals-boundary-"));
+  t.after(() => rmSync(root, { recursive: true, force: true }));
   const authorizationPath = syntheticAuthorizationPath(root);
   const before = readFileSync(authorizationPath);
   const authority = await readVirtualsPilotAuthorization(authorizationPath);
@@ -29,7 +31,7 @@ test("synthetic authority mechanics preserve the supplied file bytes", async () 
 // Separately enrolled by the custodian. This test is deliberately NOT fixture evidence.
 test("instance conformance: custodian-supplied original grant satisfies the unchanged policy", {
   skip: !process.env.VIRTUALS_PILOT_INSTANCE_AUTHORIZATION_PATH && "explicit custodian grant input not provided",
-}, async () => {
+}, async (t) => {
   const authorization = await readVirtualsPilotAuthorization(process.env.VIRTUALS_PILOT_INSTANCE_AUTHORIZATION_PATH);
   assert.notEqual(authorization.testFixture, true, "a synthetic fixture cannot qualify real instance authority");
 });
