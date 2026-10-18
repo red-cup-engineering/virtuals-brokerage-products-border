@@ -39,5 +39,10 @@
     "@red-cup-engineering/computer-system-engine": "0.1.2"
   },
   "description": "virtuals-brokerage-products-border sovereign enterprise",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/red-cup-engineering/computer-web-engineering-services-section.git",
+    "directory": "services/web-platform-services-section/services/web2-platform-services-section/services/web2-financial-platform-services-section/services/web2-financial-brokerage-platform-services-section/services/alpaca-services-section/services/virtuals-brokerage-products-border"
+  },
   "private": false
 }
