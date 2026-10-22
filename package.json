@@ -43,5 +43,10 @@
     "type": "git",
     "url": "git+https://github.com/red-cup-engineering/virtuals-brokerage-products-border.git"
   },
-  "private": false
+  "private": false,
+  "license": "MIT",
+  "funding": {
+    "type": "individual",
+    "url": "https://github.com/561-group/.github/blob/main/TIPS.md"
+  }
 }
