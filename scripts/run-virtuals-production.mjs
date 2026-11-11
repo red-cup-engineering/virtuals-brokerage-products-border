@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { mkdirSync } from "node:fs";
 import { resolve } from "node:path";
-import { put } from "@red-cup-engineering/semiotic-eavt-services-section/store";
+import { put } from "@red-cup-engineering/semiotic-eavt-engineering-services-section/store";
 import {
   requireVirtualsProductionGate,
   startVirtualsLiteProduction,
