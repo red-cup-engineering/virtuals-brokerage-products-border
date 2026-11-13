@@ -20,7 +20,7 @@
     "test": "node --test test/*.test.mjs"
   },
   "dependencies": {
-    "@red-cup-engineering/typed-computer-code-engine": "^0.1.0",
+    "@red-cup-engineering/computer-code-engine": "^0.1.0",
     "@account-kit/infra": "4.84.1",
     "@virtuals-protocol/acp-node-v2": "0.1.15",
     "socket.io-client": "4.8.1",
