@@ -2,7 +2,7 @@ import { randomBytes } from "node:crypto";
 import { closeSync, constants, existsSync, fsyncSync, linkSync, mkdirSync, openSync, readFileSync, statSync, unlinkSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { VIRTUALS_PRODUCTS } from "./virtuals-border.mjs";
-import { semanticIdOf } from "@red-cup-engineering/computer-code-engine/semiotic-expression-notation/semantic-content-identity";
+import { semanticIdOf } from "@red-cup-engineering/typed-computer-code-engine/semiotic-expression-notation/semantic-content-identity";
 
 const semanticId = semanticIdOf("brokerage.virtuals-products-border.record");
 
