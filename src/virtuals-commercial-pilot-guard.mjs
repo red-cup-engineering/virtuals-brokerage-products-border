@@ -142,7 +142,7 @@ export async function createVirtualsCommercialPilotGuard({
   const deliverablePath = join(root, "deliverable-attempt.json");
   const delistingPath = join(root, "offering-delisting-attempt.json");
 
-  async function admitJob({ jobId, chainId, offering }) {
+  async function validateJob({ jobId, chainId, offering }) {
     if (chainId !== BASE_CHAIN_ID) throw new TypeError("commercial pilot permits only Base chain 8453");
     requireOffering(offering);
     const normalizedJobId = normalizeJobId(jobId);
@@ -170,7 +170,7 @@ export async function createVirtualsCommercialPilotGuard({
     return (await readClaim()).jobId === normalizeJobId(jobId);
   }
 
-  async function admitOfferingEffect(effect, offering) {
+  async function validateOfferingEffect(effect, offering) {
     requireOffering(offering);
     const paths = {
       publish: publicationPath,
@@ -193,7 +193,7 @@ export async function createVirtualsCommercialPilotGuard({
     return Object.freeze(attempt);
   }
 
-  async function admitLiteJobEffect({ jobId, effect, payload }) {
+  async function validateLiteJobEffect({ jobId, effect, payload }) {
     const claim = await readClaim();
     const normalizedJobId = normalizeJobId(jobId);
     if (claim.jobId !== normalizedJobId) throw new TypeError("commercial pilot refuses an effect for an unclaimed job");
@@ -304,10 +304,10 @@ export async function createVirtualsCommercialPilotGuard({
     paymentRequestPath,
     deliverablePath,
     delistingPath,
-    admitJob,
+    admitJob: validateJob,
     isClaimedJob,
-    admitOfferingEffect,
-    admitLiteJobEffect,
+    admitOfferingEffect: validateOfferingEffect,
+    admitLiteJobEffect: validateLiteJobEffect,
     wrapAdapter,
   });
 }

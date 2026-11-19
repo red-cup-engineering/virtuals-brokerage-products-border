@@ -75,15 +75,15 @@ function profile(value) { return value?.data?.data ?? value?.data ?? value; }
 export async function ensureVirtualsBrokerageOfferings({ client, operatorName, operatorWallet, providers, onEvent = async () => {} }) {
   const expectedWallet = normalizeAddress(operatorWallet, "virtuals-operator-wallet"), current = profile(await client.me());
   if (current?.name !== operatorName || normalizeAddress(current?.walletAddress, "virtuals-profile-wallet") !== expectedWallet) throw new TypeError("virtuals-credential-operator-identity-mismatch");
-  const existing = Array.isArray(current.jobs) ? current.jobs : [], dispositions = [];
+  const existing = Array.isArray(current.jobs) ? current.jobs : [], decisions = [];
   for (const product of Object.keys(VIRTUALS_PRODUCTS)) {
-    if (!providerAvailable(providers?.[product])) { dispositions.push({ product, disposition: "provider-unavailable" }); continue; }
+    if (!providerAvailable(providers?.[product])) { decisions.push({ product, disposition: "provider-unavailable" }); continue; }
     const document = virtualsBrokerageOfferingDocument(product), found = existing.find((offering) => offering?.name === document.name);
-    if (found) { if (found.priceV2?.type !== "fixed" || Number(found.priceV2.value) !== document.priceV2.value || found.requiredFunds !== false) throw new TypeError("virtuals-existing-offering-incompatible"); dispositions.push({ product, disposition: "already-published" }); }
-    else { await client.publishOffering(document); dispositions.push({ product, disposition: "published" }); }
+    if (found) { if (found.priceV2?.type !== "fixed" || Number(found.priceV2.value) !== document.priceV2.value || found.requiredFunds !== false) throw new TypeError("virtuals-existing-offering-incompatible"); decisions.push({ product, disposition: "already-published" }); }
+    else { await client.publishOffering(document); decisions.push({ product, disposition: "published" }); }
   }
-  const receipt = Object.freeze({ type: "VirtualsBrokeragePublicationReceipt", version: 1, operator: operatorName, operatorWallet: expectedWallet, dispositions, recordedAt: new Date().toISOString() });
-  await onEvent(receipt); return receipt;
+  const record = Object.freeze({ type: "VirtualsBrokeragePublicationReceipt", version: 1, operator: operatorName, operatorWallet: expectedWallet, dispositions: decisions, recordedAt: new Date().toISOString() });
+  await onEvent(record); return record;
 }
 
 function negotiation(data) {
