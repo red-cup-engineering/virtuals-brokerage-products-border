@@ -204,7 +204,7 @@ export function createVirtualsProductionGuard({
     return Object.freeze(value);
   }
 
-  async function validatePublication() {
+  async function admitPublication() {
     const value = {
       type: "BlockchainTrashpandaVirtualsProductionOfferingPublicationAttempt",
       operatorWallet,
@@ -218,7 +218,7 @@ export function createVirtualsProductionGuard({
     return Object.freeze(value);
   }
 
-  return Object.freeze({ operatorWallet, root, publicationPath, admitPublication: validatePublication, claim, requireClaim, effect });
+  return Object.freeze({ operatorWallet, root, publicationPath, admitPublication, claim, requireClaim, effect });
 }
 
 function profile(value) { return value?.data?.data ?? value?.data ?? value; }
@@ -262,12 +262,12 @@ export function createVirtualsProductionJobHandler({ client, guard, onEvent = as
       }
       if (data.phase === 2) {
         await guard.requireClaim(id);
-        const record = evaluateBasePreSignPolicy(request);
-        const delivery = { deliverable: JSON.stringify(record) };
+        const receipt = evaluateBasePreSignPolicy(request);
+        const delivery = { deliverable: JSON.stringify(receipt) };
         await guard.effect(id, "deliver", delivery);
         await client.deliver(id, delivery);
-        await onEvent({ type: "production-job-delivered", jobId: id, receiptId: record.id });
-        return Object.freeze({ disposition: "delivered", jobId: id, receiptId: record.id });
+        await onEvent({ type: "production-job-delivered", jobId: id, receiptId: receipt.id });
+        return Object.freeze({ disposition: "delivered", jobId: id, receiptId: receipt.id });
       }
       if (TERMINAL_PHASES.has(data.phase)) {
         await guard.requireClaim(id);

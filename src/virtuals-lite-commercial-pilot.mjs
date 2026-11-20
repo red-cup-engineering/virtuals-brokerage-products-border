@@ -188,8 +188,8 @@ export function createVirtualsLitePilotJobHandler({ client, guard, stop = async 
       }
       if (data.phase === PHASE.TRANSACTION) {
         if (!(await guard.isClaimedJob(id))) throw new TypeError("Virtuals Lite pilot refuses delivery for an unclaimed job");
-        const record = evaluateBasePreSignPolicy(request);
-        const delivery = { deliverable: JSON.stringify(record) };
+        const receipt = evaluateBasePreSignPolicy(request);
+        const delivery = { deliverable: JSON.stringify(receipt) };
         await guard.admitLiteJobEffect({ jobId: id, effect: "deliver", payload: delivery });
         await client.deliver(id, delivery);
         await guard.admitOfferingEffect("delist", {
@@ -199,9 +199,9 @@ export function createVirtualsLitePilotJobHandler({ client, guard, stop = async 
           requiredFunds: false,
         });
         await client.delistOffering(PILOT_OFFERING_NAME);
-        await onEvent({ type: "pilot-delivered-and-delisted", jobId: id, receiptId: record.id });
+        await onEvent({ type: "pilot-delivered-and-delisted", jobId: id, receiptId: receipt.id });
         await stop();
-        return Object.freeze({ disposition: "delivered-and-delisted", jobId: id, receiptId: record.id });
+        return Object.freeze({ disposition: "delivered-and-delisted", jobId: id, receiptId: receipt.id });
       }
       if (TERMINAL_PHASES.has(data.phase) && (await guard.isClaimedJob(id))) {
         await onEvent({ type: "pilot-terminal", jobId: id, phase: data.phase });

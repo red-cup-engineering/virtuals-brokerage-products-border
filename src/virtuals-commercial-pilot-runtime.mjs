@@ -42,9 +42,9 @@ function requireProviderSession(session) {
   if (session.job?.description !== PILOT_OFFERING_NAME) throw new TypeError("Virtuals pilot runtime refuses other offerings");
 }
 
-export function createVirtualsPilotEntryHandler({ guard, AssetToken, onTerminal = async () => {}, onRefusal: onRejection = async () => {} }) {
+export function createVirtualsPilotEntryHandler({ guard, AssetToken, onTerminal = async () => {}, onRefusal = async () => {} }) {
   if (typeof guard?.admitJob !== "function" || typeof AssetToken?.usdc !== "function") throw new TypeError("Virtuals pilot handler requires its guard and AssetToken provider");
-  if (typeof onTerminal !== "function" || typeof onRejection !== "function") throw new TypeError("Virtuals pilot callbacks must be functions");
+  if (typeof onTerminal !== "function" || typeof onRefusal !== "function") throw new TypeError("Virtuals pilot callbacks must be functions");
 
   return async function handleEntry(session, entry) {
     try {
@@ -58,10 +58,10 @@ export function createVirtualsPilotEntryHandler({ guard, AssetToken, onTerminal 
       }
       if (entry.kind === "system" && entry.event?.type === "job.funded") {
         const request = findRequirement(session);
-        const record = evaluateBasePreSignPolicy(request);
+        const receipt = evaluateBasePreSignPolicy(request);
         await guard.admitJob({ jobId: session.jobId, chainId: session.chainId, offering: PILOT_OFFERING });
-        await session.submit(JSON.stringify(record));
-        return Object.freeze({ disposition: "submitted", jobId: String(session.jobId), receipt: record.id });
+        await session.submit(JSON.stringify(receipt));
+        return Object.freeze({ disposition: "submitted", jobId: String(session.jobId), receipt: receipt.id });
       }
       if (entry.kind === "system" && ["job.completed", "job.rejected", "job.expired"].includes(entry.event?.type)) {
         if (!(await guard.isClaimedJob(session.jobId))) return Object.freeze({ disposition: "ignored", jobId: String(session.jobId) });
@@ -70,7 +70,7 @@ export function createVirtualsPilotEntryHandler({ guard, AssetToken, onTerminal 
       }
       return Object.freeze({ disposition: "ignored", jobId: String(session.jobId) });
     } catch (error) {
-      await onRejection({ jobId: session?.jobId === undefined ? null : String(session.jobId), error });
+      await onRefusal({ jobId: session?.jobId === undefined ? null : String(session.jobId), error });
       return Object.freeze({ disposition: "refused", jobId: session?.jobId === undefined ? null : String(session.jobId), reason: error instanceof Error ? error.message : String(error) });
     }
   };
@@ -88,7 +88,7 @@ export async function startVirtualsCommercialPilot({
   privyAppId = VIRTUALS_PRIVY_APP_ID,
   builderCode,
   onTerminal,
-  onRefusal: onRejection,
+  onRefusal,
 }) {
   const guard = await createVirtualsCommercialPilotGuard({
     operatorWalletAddress: walletAddress,
@@ -131,7 +131,7 @@ export async function startVirtualsCommercialPilot({
   const handleEntry = createVirtualsPilotEntryHandler({
     guard,
     AssetToken,
-    onRefusal: onRejection,
+    onRefusal,
     onTerminal: async (event) => {
       await onTerminal?.(event);
       await agent.stop();
