@@ -1,0 +1,18 @@
+{
+  "enterprise": "urn:ame:blockchain-trashpanda",
+  "platform": "Virtuals ACP",
+  "network": "eip155:8453",
+  "jobLimit": 1,
+  "jobType": "service-only",
+  "exactPrice": {
+    "amount": "0.01",
+    "currency": "USDC"
+  },
+  "operatorWallet": {
+    "separation": "new-and-separate"
+  },
+  "forbiddenEffects": [
+    "fund-transfer-job",
+    "broader-launch"
+  ]
+}
