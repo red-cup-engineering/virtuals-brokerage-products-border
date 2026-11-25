@@ -1,4 +1,4 @@
-import { sha256Hex } from "@red-cup-engineering/semiotic-content-address-system";
+import { sha256Hex, semanticHex } from "@red-cup-engineering/semiotic-content-address-system";
 import { existsSync, mkdirSync, statSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
@@ -165,7 +165,7 @@ export function createVirtualsProductionGuard({
 
   async function claim(jobId, request) {
     const id = normalizeJobId(jobId);
-    const requestSha256 = sha256Hex(JSON.stringify(request));
+    const requestSha256 = semanticHex(request);
     const path = join(jobDirectory(id), "claim.json");
     const value = { type: "BlockchainTrashpandaVirtualsProductionJobClaim", jobId: id, operatorWallet, priceUsdc: VIRTUALS_PRODUCTION_PRICE, serviceOnly: true, requestSha256, admittedAt: now() };
     if (!(await createIfAbsent(path, JSON.stringify(value) + "\n", 0o600))) {
@@ -196,7 +196,7 @@ export function createVirtualsProductionGuard({
       type: "BlockchainTrashpandaVirtualsProductionEffectAttempt",
       jobId: claimValue.jobId,
       effect: name,
-      payloadSha256: sha256Hex(JSON.stringify(payload)),
+      payloadSha256: semanticHex(payload),
       attemptedAt: now(),
       retry: false,
     };
