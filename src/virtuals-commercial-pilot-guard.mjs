@@ -1,4 +1,4 @@
-import { sha256Hex } from "@red-cup-engineering/semiotic-content-address-system";
+import { sha256Hex, semanticHex } from "@red-cup-engineering/semiotic-content-address-system";
 import { existsSync, mkdirSync, statSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { readFileText } from "@red-cup-engineering/computer-file-engineering-services-section/read-file";
@@ -225,7 +225,7 @@ export async function createVirtualsCommercialPilotGuard({
       jobId: normalizedJobId,
       operatorWallet,
       effect,
-      payloadSha256: sha256Hex(JSON.stringify(payload)),
+      payloadSha256: semanticHex(payload),
       attemptedAt: now(),
       retry: false,
     };
@@ -263,7 +263,7 @@ export async function createVirtualsCommercialPilotGuard({
           jobId: claim.jobId,
           chainId: BASE_CHAIN_ID,
           operatorWallet,
-          callSha256: sha256Hex(JSON.stringify(normalizedCall)),
+          callSha256: semanticHex(normalizedCall),
           attemptedAt: now(),
           retry: false,
         };
