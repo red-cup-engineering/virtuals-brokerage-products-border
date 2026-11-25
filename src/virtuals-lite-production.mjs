@@ -1,3 +1,4 @@
+import { sha256Hex } from "@red-cup-engineering/semiotic-content-address-system";
 import { existsSync, mkdirSync, statSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
@@ -12,7 +13,6 @@ import {
   VIRTUALS_LITE_SOCKET_ORIGIN,
   YANAGI_OPERATOR_WALLET,
 } from "./virtuals-lite-commercial-pilot.mjs";
-import { sha256Hex } from "@red-cup-engineering/cryptographic-computer-data-engineering-services-section/integrity";
 
 export const VIRTUALS_PRODUCTION_PRICE = "0.05";
 export const VIRTUALS_PRODUCTION_USDC_BASE_UNITS = 50_000n;
